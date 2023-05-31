@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Web Page</title>
+    <link rel="stylesheet" href="homes.css">
+    <style>
+     .search-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.search-container input[type="text"] {
+    width: 200px; /* Adjust the width as needed */
+    margin-right: 10px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+.search-button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 3px;
+    background-color: #007bff;
+    color: #fff;
+}
+
+.pagination {
+  text-align: center;
+}
+
+.pagination a {
+  display: inline-block;
+  margin: 5px;
+  padding: 8px 12px;
+  text-decoration: none;
+  background-color: #f2f2f2;
+  color: #333;
+  border-radius: 4px;
+}
+
+.pagination a:hover {
+  background-color: #ddd;
+}
+
+.pagination .prev-button {
+  margin-right: 10px;
+}
+
+.pagination .next-button {
+  margin-left: 10px;
+}
+
+.sort-container {
+    text-align: right;
+    margin-bottom: 10px;
+  }
+
+  .sort-container label {
+    margin-right: 5px;
+  }
+
+  .sort-container select {
+    padding: 5px;
+  }
+
+  .pagination {
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  .pagination a {
+    display: inline-block;
+    margin: 5px;
+    padding: 8px 12px;
+    text-decoration: none;
+    background-color: #f2f2f2;
+    color: #333;
+    border-radius: 4px;
+  }
+
+  .pagination a:hover {
+    background-color: #ddd;
+  }
+
+  .pagination .prev-button {
+    margin-right: 10px;
+  }
+
+  .pagination .next-button {
+    margin-left: 10px;
+  }
+
+  .filter-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .filter-container label {
+    margin-right: 5px;
+  }
+
+  .filter-container input[type="text"] {
+    padding: 5px;
+    border-radius: 4px;
+  }
+
+  .filter-container button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #4CAF50;
+    color: white;
+  }
+
+  #new-post-button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #4CAF50;
+    color: white;
+  }
+    </style>
+</head>
+<body>
+<header>
+    <h1>My Blog Application</h1>
+</header>
+
+<div class="search-container">
+    <input type="text" name="search" placeholder="Search">
+    <button class="search-button">Search</button>
+    &nbsp;&nbsp;&nbsp;
+    <button class="login-button">Login</button>
+    <br><br>
+</div>
+
+<div class="sort-container">
+    <label for="sort-select">Sort by:</label>
+    <select id="sort-select">
+        <option value="name">Name</option>
+        <option value="id">ID</option>
+        <option value="date">Date</option>
+    </select>
+</div>
+
+<div class="post-container">
+    <!-- Display sorted and paginated posts here -->
+</div>
+
+<div class="pagination">
+    <a href="#" class="prev-button">Previous</a>
+    <a href="#" class="next-button">Next</a>
+</div>
+
+
+<label for="sort-field">Sort Field:</label>
+<select id="sort-field" name="sort-field">
+    <option value="publishedAt">Published Date</option>
+    <option value="title">Title</option>
+    <option value="author">Author</option>
+</select>
+
+
+<div class="filter-container">
+    <label for="author-filter">Author:</label>
+    <input type="text" id="author-filter" name="author-filter">
+
+    <label for="tags-filter">Tags:</label>
+    <input type="text" id="tags-filter" name="tags-filter">
+
+    <button id="apply-filters">Apply Filters</button>
+</div>
+
+<form action="new_post">
+<button id="new-post-button">New Post</button>
+</form>
+
+</body>
+</html>
