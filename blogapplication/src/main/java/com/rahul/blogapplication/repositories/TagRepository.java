@@ -1,2 +1,11 @@
-package com.rahul.blogapplication.repositories;public interface TagRepository {
+package com.rahul.blogapplication.repositories;
+
+import com.rahul.blogapplication.models.Comment;
+import com.rahul.blogapplication.models.Tag;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface TagRepository extends JpaRepository<Tag, Integer> {
+    Tag findByName(String name);
 }

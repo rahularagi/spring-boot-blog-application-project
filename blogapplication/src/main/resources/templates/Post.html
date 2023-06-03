@@ -51,7 +51,7 @@
 <body>
 <div class="container">
   <h1>New/Edit Post</h1>
-  <form action="savepost" th:action="@{/savepost}" th:object="${postDto}" method="post">
+  <form action="save_post" th:action="@{/save_post}" th:object="${postDto}" method="post">
     <label for="title">Title:</label>
     <input type="text" id="title" name="title" placeholder="Title" th:field="*{title}" required>
 

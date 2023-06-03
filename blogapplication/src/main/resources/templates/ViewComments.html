@@ -1,10 +1,71 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .comment-box {
+            width: 300px;
+            margin: 20px auto;
+            padding: 10px;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .comment-box input,
+        .comment-box textarea,
+        .comment-box button {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .comment-box button[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .comment-box button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .comment-box button.return-home {
+            background-color: #337ab7;
+            color: white;
+        }
+
+        .comment-box button.return-home:hover {
+            background-color: #286090;
+        }
+    </style>
 </head>
 <body>
-$END$
+<!--<div class="comment-box">-->
+<!--    <form action="new_comment"  method="post">-->
+<!--        <input type="text" name="name" placeholder="Your Name"  required>-->
+<!--        <input type="email" name="email" placeholder="Your Email" required>-->
+<!--        <textarea name="comment" rows="5" placeholder="Your Comment" required></textarea>-->
+<!--        <button type="submit">Submit</button>-->
+<!--        <button class="return-home" onclick="location.href='/'">Return Home</button>-->
+<!--    </form>-->
+<!--</div>-->
+<!--"@{'new_comment/' + ${postId}}"-->
+<!--"@{/new_comment}"-->
+<span th:text="${postId}">hii</span>
+
+
+
+<div class="comment-box">
+    <form  th:action="@{'/new_comment/' + ${postId}}" th:object="${newComment}" method="post">
+        <input type="hidden" name="id" th:value="${postId}" th:field="*{postId}">
+    <input type="text" name="name" placeholder="Your Name" th:field="*{name}" required>
+    <input type="email" name="email" placeholder="Your Email" th:field="*{email}" required>
+    <textarea name="comment" rows="5" placeholder="Your Comment" th:field="*{comment}" ></textarea>
+<!--        <textarea id="content" name="content" rows="8" th:field="*{comment}" ></textarea>-->
+        <button type="submit">Submit </button>
+
+    <button class="return-home" onclick="location.href='/'">Return Home</button>
+    </form>
+</div>
 </body>
 </html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <title>Home</title>
     <style>
@@ -16,7 +16,6 @@
             border: 1px solid #ccc;
             border-radius: 3px;
         }
-
         .search-button {
             padding: 5px 10px;
             border: none;
@@ -139,7 +138,7 @@
             font-size: 14px;
             color: #777;
         }
-        .viewpost {
+        .view_post {
         color: inherit;
         text-decoration: none;
         cursor: pointer;
@@ -169,29 +168,36 @@
 </div>
 
 <div class="post-container">
-    <div th:if="${posts.empty}">
+    <div th:if="${listPosts.empty}">
         <p>No posts found.</p>
     </div>
-<a href="viewpost" class="viewpost">
-    <div th:each="post : ${posts}" class="post">
-        <h2 th:text="${post.title}"></h2>
-        <p th:text="${post.author}"></p>
-        <button class="comment-button">Comment</button>
-        <button class="view-comment-button">View Comment</button>
-    </div>
-</a>
+    <a th:each="post : ${listPosts}" th:href="@{'view_post/' + ${post.id}}" class="view_post">
+        <div class="post">
+            <h2 th:text="${post.title}"></h2>
+            <p th:text="${post.excerpt}"></p>
+            <p th:text="${post.author}"></p>
+            <p th:text="${post.publishedAt}"></p>
+            <span>Tags: </span>
+            <span th:each="tag : ${post.tags}">
+            <span th:text="${tag.name}"></span>&nbsp;
+        </span>
+            <form  th:action="@{'view_comments/' + ${post.id}}">
+<!--                <input type="hidden" name="postId" th:value="${post.id}">-->
+                <button class="view-comment-button">View Comments</button>
+            </form>
+        </div>
+    </a>
 </div>
 
 <div class="pagination">
-    <div th:if="${currentPage > 1}">
-        <a th:href="@{/home(page=${currentPage - 1})}">&laquo; Previous</a>
-    </div>
+    <span th:if="${totalPages > 1 && currentPage > 1}">
+        <a th:href="@{'/'+${currentPage - 1}}">&laquo; Previous</a>
+    </span>
 
-    <div th:if="${currentPage < totalPages}">
-        <a th:href="@{/home(page=${currentPage + 1})}">Next &raquo;</a>
-    </div>
+    <span th:if="${currentPage < totalPages}">
+        <a th:href="@{'/'+${currentPage + 1}}">Next &raquo;</a>
+    </span>
 </div>
-
 <div class="filter-container">
     <label for="author-filter">Author:</label>
     <input type="text" id="author-filter" name="author-filter">

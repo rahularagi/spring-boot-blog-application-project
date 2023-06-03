@@ -1,6 +1,11 @@
 package com.rahul.blogapplication.models;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CurrentTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "post_tbl")
@@ -10,12 +15,23 @@ public class Post {
     private int id;
     private String title;
     private String excerpt;
+    @Column(length = 10000000)
     private String content;
     private String author;
     private String publishedAt;
     private String isPublished;
-    private String createdAt;
-    private String updatedAt;
+    @CurrentTimestamp
+    private Timestamp createdAt;
+    @UpdateTimestamp
+    private Timestamp updatedAt;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "post_tag",
+            joinColumns = @JoinColumn(name = "post_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    private List<Tag> tags = new ArrayList<>();
+
 
     public int getId() {
         return id;
@@ -73,19 +89,28 @@ public class Post {
         this.isPublished = isPublished;
     }
 
-    public String getCreatedAt() {
+    public Timestamp getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(String createdAt) {
+    public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
 
-    public String getUpdatedAt() {
+    public Timestamp getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(String updatedAt) {
+    public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
     }
 }

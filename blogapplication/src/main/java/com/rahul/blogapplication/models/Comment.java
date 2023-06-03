@@ -1,6 +1,10 @@
 package com.rahul.blogapplication.models;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CurrentTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "comment_tbl")
@@ -12,9 +16,11 @@ public class Comment {
     private String name;
     private String email;
     private String comment;
-    private String postId;
-    private String createdAt;
-    private String updatedAt;
+    private int postId;
+    @CurrentTimestamp
+    private Timestamp createdAt;
+    @UpdateTimestamp
+    private Timestamp updatedAt;
 
     public int getId() {
         return id;
@@ -48,27 +54,27 @@ public class Comment {
         this.comment = comment;
     }
 
-    public String getPostId() {
+    public int getPostId() {
         return postId;
     }
 
-    public void setPostId(String postId) {
+    public void setPostId(int postId) {
         this.postId = postId;
     }
 
-    public String getCreatedAt() {
+    public Timestamp getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(String createdAt) {
+    public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
 
-    public String getUpdatedAt() {
+    public Timestamp getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(String updatedAt) {
+    public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
     }
 }

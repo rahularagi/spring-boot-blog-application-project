@@ -1,10 +1,79 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        .post {
+            text-align: center;
+            margin: 0 auto;
+            max-width: 600px;
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+
+        h2 {
+            color: #333;
+            font-size: 24px;
+        }
+
+        p {
+            color: #777;
+            text-align: left;
+            font-size: 16px;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        span.tags {
+            color: #555;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+
+        .buttons {
+            margin-top: 20px;
+        }
+
+        .buttons button {
+            margin-right: 10px;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .buttons button.delete {
+            background-color: #f39c12;
+            color: #fff;
+        }
+
+        .buttons button.home {
+            background-color: #3498db;
+            color: #fff;
+        }
+    </style>
 </head>
 <body>
-
+<div class="post">
+    <h2>Title: <span th:text="${post.title}"></span></h2>
+    <p><strong>Author:</strong> <span th:text="${post.author}"></span></p>
+    <p><strong>Published on:</strong> <span th:text="${post.publishedAt}"></span></p>
+    <p><strong>Content:</strong></p>
+    <div>
+        <p th:text="${post.content}"></p>
+    </div>
+    <p><strong>Tags:</strong>
+        <span class="tags" th:each="tag : ${post.tags}" th:text="${tag.name}"></span>&nbsp;
+    </p>
+    <div class="buttons">
+        <button class="delete" onclick="deletePost()">Delete Post</button>
+        <button class="home" onclick="goHome()">Home</button>
+    </div>
+</div>
 </body>
 </html>
