@@ -20,5 +20,16 @@ public class CommentService {
     public void addPost(Comment newComment){
         commentRepository.save(newComment);
     }
+    public Comment getCommentById(int commentId){
+       return commentRepository.findById(commentId);
+    }
+
+    public void deleteCommentByID(int commentId){
+        commentRepository.deleteById(commentId);
+    }
+    /*public void deletePostByID(int postId){
+        postTagService.deletePostIdInPostTag(postId);
+        postRepository.deleteById(postId);
+    }*/
 }
 

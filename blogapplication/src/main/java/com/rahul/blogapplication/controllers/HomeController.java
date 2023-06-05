@@ -19,17 +19,19 @@ public class HomeController {
 
     @GetMapping("/")
     public String home( Model model) {
-        return findPaginated(1,model);
+        return findPaginated(1,"title","asc",model);
     }
     @GetMapping("/{pageNo}")
-    public String findPaginated(@PathVariable(value="pageNo") int pageNo, Model model) {
+    public String findPaginated(@PathVariable(value="pageNo") int pageNo,@RequestParam("sortField") String sortField,@RequestParam("sortDir") String sortDir,Model model) {
         int pageSize = 10;
-        Page<Post> page=postService.getPaginatedPost(pageNo, pageSize);
+        Page<Post> page=postService.getPaginatedPost(pageNo, pageSize,sortField,sortDir);
         List<Post> listPosts=page.getContent();
         model.addAttribute("currentPage",pageNo);
         model.addAttribute("totalPages",page.getTotalPages());
         model.addAttribute("listPosts",listPosts);
+        model.addAttribute("sortField",sortField);
+        model.addAttribute("sortDir",sortDir);
+        model.addAttribute("reverseSortDir",sortDir);
         return "Home.html";
     }
-
 }

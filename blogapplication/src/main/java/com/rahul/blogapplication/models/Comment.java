@@ -9,7 +9,6 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "comment_tbl")
 public class Comment {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;

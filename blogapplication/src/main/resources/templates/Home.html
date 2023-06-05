@@ -138,6 +138,10 @@
             font-size: 14px;
             color: #777;
         }
+        .buttons button.delete {
+            background-color: #f39c12;
+            color: #fff;
+        }
         .view_post {
         color: inherit;
         text-decoration: none;
@@ -149,7 +153,6 @@
 <header>
     <h1>My Blog Application</h1>
 </header>
-
 <div class="search-container">
     <input type="text" name="search" placeholder="Search">
     <button class="search-button">Search</button>
@@ -157,14 +160,40 @@
     <button class="login-button">Login</button>
     <br><br>
 </div>
+<!--<div class="sort-container">-->
+<!--    <label for="sort-select">Sort by:</label>-->
+<!--    <select id="sort-select" onchange="handleSortChange(this)">-->
+<!--        <option value="name" th:selected="${sortField == 'title'}" th:href="@{'/'+${currentPage}+'?sortField=title&sortDir='+ ${reverseSortDir}}">Name</option>-->
+<!--        <option value="id" th:selected="${sortField == 'id'}" th:href="@{'/'+${currentPage}+'?sortField=id&sortDir='+ ${reverseSortDir}}">ID</option>-->
+<!--        <option value="date" th:selected="${sortField == 'publishedAt'}" th:href="@{'/'+${currentPage}+'?sortField=publishedAt&sortDir='+ ${reverseSortDir}}">Date</option>-->
+<!--    </select>-->
+<!--</div>-->
+<!--<div class="sort-container">-->
+<!--   <form th:action="@{'/'+${currentPage}+'?sortField='+${sortField}+'&sortDir='+ ${reverseSortDir}}">-->
+<!--       &lt;!&ndash; Sorting functionality &ndash;&gt;-->
+<!--       <label for="sort-select">Sort by:</label>-->
+<!--       <select id="sort-select" name="sortField" onchange="this.form.submit()">-->
+<!--           <option value="title" th:selected="${sortField == 'title'}">Name</option>-->
+<!--           <option value="id" th:selected="${sortField == 'id'}">ID</option>-->
+<!--           <option value="publishedAt" th:selected="${sortField == 'publishedAt'}">Date</option>-->
+<!--       </select>-->
+<!--   </form>-->
+<!--</div>-->
 
 <div class="sort-container">
-    <label for="sort-select">Sort by:</label>
-    <select id="sort-select">
-        <option value="name">Name</option>
-        <option value="id">ID</option>
-        <option value="date">Date</option>
-    </select>
+    <form th:action="@{'/'+${currentPage}+'?sortField='+${sortField}+'&sortDir='+${reverseSortDir}}">
+        <!-- Sorting functionality -->
+        <label for="sort-select">Sort by:</label>
+        <select id="sort-select" name="sortField">
+            <option value="title" th:selected="${sortField == 'title'}">Name</option>
+            <option value="id" th:selected="${sortField == 'id'}">ID</option>
+            <option value="publishedAt" th:selected="${sortField == 'publishedAt'}">Date</option>
+        </select>
+<!--        <input type="hidden" name="sortDir" th:value="${reverseSortDir}">-->
+        <button type="submit" name="sortDir" value="asc">Ascending</button>
+        <button type="submit" name="sortDir" value="desc">Descending</button>
+<!--        <button type="submit">Sort</button>-->
+    </form>
 </div>
 
 <div class="post-container">
@@ -182,8 +211,11 @@
             <span th:text="${tag.name}"></span>&nbsp;
         </span>
             <form  th:action="@{'view_comments/' + ${post.id}}">
-<!--                <input type="hidden" name="postId" th:value="${post.id}">-->
                 <button class="view-comment-button">View Comments</button>
+            </form>
+            <br>
+            <form th:action="@{'delete/' + ${post.id}}" method="post">
+                <button class="delete" onclick="deletePost()">Delete Post</button>
             </form>
         </div>
     </a>
@@ -191,13 +223,17 @@
 
 <div class="pagination">
     <span th:if="${totalPages > 1 && currentPage > 1}">
-        <a th:href="@{'/'+${currentPage - 1}}">&laquo; Previous</a>
+        <a th:href="@{'/'+${currentPage - 1}+'?sortField='+${sortField}+'&sortDir='+${reverseSortDir}}">&laquo; Previous</a>
     </span>
 
     <span th:if="${currentPage < totalPages}">
-        <a th:href="@{'/'+${currentPage + 1}}">Next &raquo;</a>
+        <a th:href="@{'/'+${currentPage + 1}+'?sortField='+${sortField}+'&sortDir='+${reverseSortDir}}">Next &raquo;</a>
     </span>
 </div>
+<form action="new_post">
+    <button id="new-post-button">New Post</button>
+</form>
+<br>
 <div class="filter-container">
     <label for="author-filter">Author:</label>
     <input type="text" id="author-filter" name="author-filter">
@@ -207,9 +243,5 @@
 
     <button id="apply-filters">Apply Filters</button>
 </div>
-
-<form action="new_post">
-    <button id="new-post-button">New Post</button>
-</form>
 </body>
 </html>

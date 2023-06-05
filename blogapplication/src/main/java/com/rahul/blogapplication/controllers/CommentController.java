@@ -2,6 +2,7 @@ package com.rahul.blogapplication.controllers;
 
 import com.rahul.blogapplication.dto.PostDto;
 import com.rahul.blogapplication.models.Comment;
+import com.rahul.blogapplication.models.Post;
 import com.rahul.blogapplication.services.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,4 +33,19 @@ public class CommentController {
          commentService.addPost(newComment);
         return "redirect:/view_comments/"+postId;
     }
+    @GetMapping("/update_comment/{commentId}")
+    public String updatePost(@PathVariable("commentId") int commentId,Model model){
+        Comment newComment = commentService.getCommentById(commentId);
+        int postId=newComment.getPostId();
+        model.addAttribute("postId",postId);
+        model.addAttribute("newComment", newComment);
+        return "ViewComments.html";
+    }
+    @GetMapping("/delete_comment/{commentId}")
+    public String deletePost(@PathVariable("commentId") int commentId){
+        Comment comment=commentService.getCommentById(commentId);
+        commentService.deleteCommentByID(commentId);
+        return "redirect:/view_comments/"+comment.getPostId();
+    }
+
 }

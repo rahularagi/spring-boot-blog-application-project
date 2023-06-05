@@ -4,68 +4,120 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <style>
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
         .comment-box {
-            width: 300px;
-            margin: 20px auto;
-            padding: 10px;
-            border: 2px solid #ccc;
-            border-radius: 4px;
+            margin-bottom: 20px;
         }
 
-        .comment-box input,
-        .comment-box textarea,
-        .comment-box button {
-            display: block;
+        .comment-box table {
             width: 100%;
+            border-collapse: collapse;
             margin-bottom: 10px;
+            border: 1px solid #ccc;
         }
 
-        .comment-box button[type="submit"] {
+        .comment-box table th,
+        .comment-box table td {
+            padding: 8px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .comment-box table th {
+            background-color: #f2f2f2;
+            text-align: left;
+        }
+
+        .comment-box form {
+            margin-top: 20px;
+        }
+
+        .comment-box input[type="text"],
+        .comment-box input[type="email"],
+        .comment-box textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .comment-box textarea {
+            resize: vertical;
+        }
+
+        .comment-box button {
+            width: 100%;
+            padding: 8px;
             background-color: #4CAF50;
             color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
         }
 
-        .comment-box button[type="submit"]:hover {
+        .comment-box button:hover {
             background-color: #45a049;
         }
 
-        .comment-box button.return-home {
+        .comment-box .return-home {
             background-color: #337ab7;
-            color: white;
         }
 
-        .comment-box button.return-home:hover {
+        .comment-box .return-home:hover {
             background-color: #286090;
         }
     </style>
 </head>
 <body>
-<!--<div class="comment-box">-->
-<!--    <form action="new_comment"  method="post">-->
-<!--        <input type="text" name="name" placeholder="Your Name"  required>-->
-<!--        <input type="email" name="email" placeholder="Your Email" required>-->
-<!--        <textarea name="comment" rows="5" placeholder="Your Comment" required></textarea>-->
-<!--        <button type="submit">Submit</button>-->
-<!--        <button class="return-home" onclick="location.href='/'">Return Home</button>-->
-<!--    </form>-->
-<!--</div>-->
-<!--"@{'new_comment/' + ${postId}}"-->
-<!--"@{/new_comment}"-->
-<span th:text="${postId}">hii</span>
+<div class="container">
+    <div class="comment-box">
+        <h2>List of Comments</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Comment</th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="comment : ${comments}">
+                <td th:text="${comment.name}"></td>
+                <td th:text="${comment.email}"></td>
+                <td th:text="${comment.comment}"></td>
+                <td>
+                    <form th:action="@{'/update_comment/'+${comment.id}}">
+                        <button class="home">Update</button>
+                    </form>
+                </td>
+                <td>
+                    <form th:action="@{'/delete_comment/'+${comment.id}}">
+                        <button class="home">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
 
-
-
-<div class="comment-box">
-    <form  th:action="@{'/new_comment/' + ${postId}}" th:object="${newComment}" method="post">
-        <input type="hidden" name="id" th:value="${postId}" th:field="*{postId}">
-    <input type="text" name="name" placeholder="Your Name" th:field="*{name}" required>
-    <input type="email" name="email" placeholder="Your Email" th:field="*{email}" required>
-    <textarea name="comment" rows="5" placeholder="Your Comment" th:field="*{comment}" ></textarea>
-<!--        <textarea id="content" name="content" rows="8" th:field="*{comment}" ></textarea>-->
-        <button type="submit">Submit </button>
-
-    <button class="return-home" onclick="location.href='/'">Return Home</button>
-    </form>
+        <h2>New Comment</h2>
+        <form th:action="@{'/new_comment/' + ${postId}}" th:object="${newComment}" method="post">
+            <input type="hidden" th:field="*{id}"/>
+            <input type="hidden" name="postId" th:value="${postId}" th:field="*{postId}"/>
+            <input type="text" name="name" placeholder="Your Name" th:field="*{name}" required>
+            <input type="email" name="email" placeholder="Your Email" th:field="*{email}" required>
+            <textarea name="comment" rows="5" placeholder="Your Comment" th:field="*{comment}"></textarea>
+            <button type="submit">Submit</button>
+            <button class="return-home" onclick="location.href='/'">Return Home</button>
+        </form>
+    </div>
 </div>
 </body>
 </html>

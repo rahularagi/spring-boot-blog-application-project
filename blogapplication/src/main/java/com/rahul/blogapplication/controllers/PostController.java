@@ -27,10 +27,6 @@ public class PostController {
         postService.addPost(postDto);
         return "redirect:/";
     }
-   /* @GetMapping("/view_post")
-    public String viewPost(@RequestParam("keyword") String keyword, Model model){
-        return "PostDetails.html";
-    }*/
     @GetMapping("/view_post/{postId}")
     public String viewPost(@PathVariable("postId") int postId, Model model) {
         // Retrieve the post details based on the postId
@@ -39,5 +35,17 @@ public class PostController {
         // Add the post details to the model
         model.addAttribute("post", post);
         return "PostDetails.html";
+    }
+   @PostMapping("/delete/{postId}")
+    public String deletePost(@PathVariable("postId") int postId){
+        postService.deletePostByID(postId);
+        return "redirect:/";
+    }
+    @GetMapping("/update/{postId}")
+    public String updatePost(@PathVariable("postId") int postId,Model model){
+        Post post = postService.getPostById(postId);
+        PostDto postDto= postService.getPostDto(post);
+        model.addAttribute("postDto", postDto);
+        return "Post.html";
     }
 }
