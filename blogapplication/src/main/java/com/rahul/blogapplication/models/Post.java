@@ -18,8 +18,9 @@ public class Post {
     @Column(length = 10000000)
     private String content;
     private String author;
-    private String publishedAt;
-    private String isPublished;
+    @CurrentTimestamp
+    private Timestamp publishedAt;
+    private boolean isPublished;
     @CurrentTimestamp
     private Timestamp createdAt;
     @UpdateTimestamp
@@ -73,19 +74,19 @@ public class Post {
         this.author = author;
     }
 
-    public String getPublishedAt() {
+    public Timestamp getPublishedAt() {
         return publishedAt;
     }
 
-    public void setPublishedAt(String publishedAt) {
+    public void setPublishedAt(Timestamp publishedAt) {
         this.publishedAt = publishedAt;
     }
 
-    public String getIsPublished() {
+    public boolean getIsPublished() {
         return isPublished;
     }
 
-    public void setIsPublished(String isPublished) {
+    public void setIsPublished(boolean isPublished) {
         this.isPublished = isPublished;
     }
 

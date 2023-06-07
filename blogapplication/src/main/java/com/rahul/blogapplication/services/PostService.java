@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -32,7 +33,8 @@ public class PostService {
         post.setTitle(postDto.getTitle());
         post.setAuthor(postDto.getAuthorName());
         post.setContent(postDto.getContent());
-        post.setExcerpt(postDto.getContent().substring(0,1));
+        post.setExcerpt(postDto.getContent().substring(0,30));
+        post.setIsPublished(true);
         if(postDto.getId()>0){
             post.setId(postDto.getId());
         }
@@ -49,7 +51,6 @@ public class PostService {
         }
         postRepository.save(post);
     }
-
     public PostDto getPostDto(Post post){
         PostDto postDto=new PostDto();
         postDto.setId(post.getId());
@@ -68,13 +69,31 @@ public class PostService {
         }
         return postDto;
     }
-
-    public Page<Post> getPaginatedPost(int page, int pageSize,String sortField,String sortDirection) {
+    public Page<Post> getPaginatedPost(int pageNo, int pageSize,String sortField,String sortDirection) {
         Sort sort=sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending():Sort.by(sortField).descending();
-        Pageable pageable =PageRequest.of(page - 1, pageSize,sort);
+        Pageable pageable =PageRequest.of(pageNo - 1, pageSize,sort);
         return postRepository.findAll(pageable);
     }
-
+    public Page<Post> searchAndPaginatePost(String keyword,int pageNo,int pageSize,String sortField,String sortDirection){
+        Sort sort=sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending():Sort.by(sortField).descending();
+        Pageable pageable =PageRequest.of(pageNo - 1, pageSize,sort);
+        return postRepository.searchPosts(keyword, pageable);
+    }
+    public Page<Post> filterAndPaginatePost(String author,Timestamp publishedAt,String tags,int pageNo,int pageSize,String sortField,String sortDirection){
+        Sort sort=sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending():Sort.by(sortField).descending();
+        Pageable pageable =PageRequest.of(pageNo - 1, pageSize,sort);
+        return postRepository.findByAuthorAndPublishedAtAndTags(author,publishedAt,tags, pageable);
+    }
+    public Page<Post> filterAndPaginatePost(String author,Timestamp publishedAt,int pageNo,int pageSize,String sortField,String sortDirection){
+        Sort sort=sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending():Sort.by(sortField).descending();
+        Pageable pageable =PageRequest.of(pageNo - 1, pageSize,sort);
+        return postRepository.findByAuthorAndPublishedAt(author,publishedAt, pageable);
+    }
+    public Page<Post> filterAndPaginatePost(String author,int pageNo,int pageSize,String sortField,String sortDirection){
+        Sort sort=sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending():Sort.by(sortField).descending();
+        Pageable pageable =PageRequest.of(pageNo - 1, pageSize,sort);
+        return postRepository.findByAuthor(author, pageable);
+    }
     public Post getPostById(int postId){
         return postRepository.findById(postId);
     }
@@ -82,4 +101,21 @@ public class PostService {
         postTagService.deletePostIdInPostTag(postId);
         postRepository.deleteById(postId);
     }
+    public List<Post> listAll(){
+        return postRepository.findAll();
+    }
+    public List<Post> filterAll(String author,Timestamp publishedDateTime,String tags){
+           // Timestamp publishedAt = Timestamp.valueOf(publishedDateTime);
+            return postRepository.findByAuthorAndPublishedAtAndTags(author,publishedDateTime,tags);
+          // return postRepository.findAll();
+    }
+
+    public List<Post> filterAll(String author,Timestamp publishedDateTime){
+        return postRepository.findByAuthorAndPublishedAt(author,publishedDateTime);
+    }
+
+    public List<Post> filterAll(String author){
+        return postRepository.findByAuthor(author);
+    }
+
 }
