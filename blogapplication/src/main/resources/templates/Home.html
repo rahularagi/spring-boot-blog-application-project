@@ -8,7 +8,6 @@
             justify-content: flex-end;
             align-items: center;
         }
-
         .search-container input[type="text"] {
             width: 200px;
             margin-right: 10px;
@@ -23,11 +22,9 @@
             background-color: #007bff;
             color: #fff;
         }
-
         .pagination {
             text-align: center;
         }
-
         .pagination a {
             display: inline-block;
             margin: 5px;
@@ -37,37 +34,29 @@
             color: #333;
             border-radius: 4px;
         }
-
         .pagination a:hover {
             background-color: #ddd;
         }
-
         .pagination .prev-button {
             margin-right: 10px;
         }
-
         .pagination .next-button {
             margin-left: 10px;
         }
-
         .sort-container {
             text-align: right;
             margin-bottom: 10px;
         }
-
         .sort-container label {
             margin-right: 5px;
         }
-
         .sort-container select {
             padding: 5px;
         }
-
         .pagination {
             text-align: center;
             margin-top: 10px;
         }
-
         .pagination a {
             display: inline-block;
             margin: 5px;
@@ -77,11 +66,9 @@
             color: #333;
             border-radius: 4px;
         }
-
         .pagination a:hover {
             background-color: #ddd;
         }
-
         .pagination .prev-button {
             margin-right: 10px;
         }
@@ -158,77 +145,17 @@
 <header>
     <h1>My Blog Application</h1>
 </header>
-<!--<div class="search-container">-->
-<!--    <form th:action="@{'/'+${currentPage}+'sortField='+${sortField}+'&sortDir='+${reverseSortDir}}">-->
-<!--    <input type="text" name="keyword" placeholder="Search">-->
-<!--    <button class="search-button">Search</button>-->
-<!--    </form>-->
-<!--    &nbsp;&nbsp;&nbsp;-->
-<!--    <form>-->
-<!--    <button class="login-button">Login</button>-->
-<!--    </form>-->
-<!--</div>-->
-<!--<div class="sort-container">-->
-<!--    <form th:action="@{'/'+${currentPage}+'?sortField='+${sortField}+'&sortDir='+${reverseSortDir}}">-->
-<!--        <label for="sort-select">Sort by:</label>-->
-<!--        <select id="sort-select" name="sortField">-->
-<!--            <option value="title" th:selected="${sortField == 'title'}">Name</option>-->
-<!--            <option value="id" th:selected="${sortField == 'id'}">ID</option>-->
-<!--            <option value="publishedAt" th:selected="${sortField == 'publishedAt'}">Date</option>-->
-<!--        </select>-->
-<!--        <button type="submit" name="sortDir" value="asc">Ascending</button>-->
-<!--        <button type="submit" name="sortDir" value="desc">Descending</button>-->
-<!--    </form>-->
-<!--</div>-->
-
-<!--<div class="post-container">-->
-<!--    <div th:if="${listPosts.empty}">-->
-<!--        <p>No posts found.</p>-->
-<!--    </div>-->
-<!--    <a th:each="post : ${listPosts}" th:href="@{'view_post/' + ${post.id}}" class="view_post">-->
-<!--        <div class="post" th:if="${not listPosts.empty}">-->
-<!--            <h2 th:text="${post.title}"></h2>-->
-<!--            <p><strong>Excerpt:</strong> <span th:text="${post.excerpt}"></span></p>-->
-<!--            <p><strong>Author:</strong> <span th:text="${post.author}"></span></p>-->
-<!--            <p><strong>Published At:</strong> <span th:text="${post.publishedAt}"></span></p>-->
-<!--            <span><strong>Tags:</strong></span>-->
-<!--            <span th:each="tag : ${post.tags}">-->
-<!--            <span th:text="${tag.name}"></span>&nbsp;-->
-<!--        </span>-->
-<!--            <form  th:action="@{'view_comments/' + ${post.id}}">-->
-<!--                <button class="view-comment-button">View Comments</button>-->
-<!--            </form>-->
-<!--            <br>-->
-<!--            <form th:action="@{'delete/' + ${post.id}}" method="post">-->
-<!--                <button class="delete" onclick="deletePost()">Delete Post</button>-->
-<!--            </form>-->
-<!--        </div>-->
-<!--    </a>-->
-<!--</div>-->
-
-<!--<div class="pagination">-->
-<!--    <span th:if="${totalPages > 1 && currentPage > 1}">-->
-<!--        <a th:href="@{'/'+${currentPage - 1}+'?sortField='+${sortField}+'&sortDir='+${reverseSortDir}}">&laquo; Previous</a>-->
-<!--    </span>-->
-
-<!--    <span th:if="${currentPage < totalPages}">-->
-<!--        <a th:href="@{'/'+${currentPage + 1}+'?sortField='+${sortField}+'&sortDir='+${reverseSortDir}}">Next &raquo;</a>-->
-<!--    </span>-->
-<!--</div>-->
-
-
 <div class="search-container">
     <form th:action="@{/home} +'?pageNo='+${currentPage}+'&sortField='+${sortField}+'&sortDir='+${sortDir}">
-        <input type="text" name="keyword" placeholder="Search">
+        <input type="text" name="keyword" placeholder="Search" th:value="${searchKeyword}">
         <button class="search-button">Search</button>
     </form>
-    &nbsp;&nbsp;&nbsp;
     <form>
         <button class="login-button">Login</button>
     </form>
 </div>
 <div class="sort-container">
-    <form th:action="@{/home} +'?pageNo='+${currentPage}+'&sortField='+${sortField}+'&sortDir='+${sortDir}+'&keyword='+${keyword}">
+    <form th:action="@{/home} +'?pageNo='+${currentPage}+'&sortField='+${sortField}+'&sortDir='+${sortDir}+'&keyword='+${searchKeyword}">
         <label for="sort-select">Sort by:</label>
         <select id="sort-select" name="sortField">
             <option value="title" th:selected="${sortField == 'title'}">Name</option>
@@ -239,7 +166,6 @@
         <button type="submit" name="sortDir" value="desc">Descending</button>
     </form>
 </div>
-
 <div class="post-container">
     <div th:if="${listPosts.empty}">
         <p>No posts found.</p>
@@ -264,59 +190,53 @@
         </div>
     </a>
 </div>
-
 <div class="pagination">
+    <span th:if="${searchKeyword != null}">
     <span th:if="${totalPages > 1 && currentPage > 1}">
-        <a th:href="@{/home} +'?pageNo='+${currentPage - 1}+'&sortField='+${sortField}+'&sortDir='+${sortDir}+'&keyword='+${keyword}">&laquo; Previous</a>
+        <a th:href="@{/home} +'?pageNo='+${currentPage - 1}+'&sortField='+${sortField}+'&sortDir='+${sortDir}+'&keyword='+${searchKeyword}">&laquo; Previous</a>
     </span>
 
     <span th:if="${currentPage < totalPages}">
-        <a th:href="@{/home} +'?pageNo='+${currentPage + 1}+'&sortField='+${sortField}+'&sortDir='+${sortDir}+'&keyword='+${keyword}">Next &raquo;</a>
+        <a th:href="@{/home} +'?pageNo='+${currentPage + 1}+'&sortField='+${sortField}+'&sortDir='+${sortDir}+'&keyword='+${searchKeyword}">Next &raquo;</a>
+    </span>
+    </span>
+    <span th:if="${#strings.isEmpty(searchKeyword) && searchKeyword == null}">
+    <span th:if="${totalPages > 1 && currentPage > 1}">
+        <a th:href="@{/home} +'?pageNo='+${currentPage - 1}+'&sortField='+${sortField}+'&sortDir='+${sortDir}">&laquo; Previous</a>
+    </span>
+
+    <span th:if="${currentPage < totalPages}">
+        <a th:href="@{/home} +'?pageNo='+${currentPage + 1}+'&sortField='+${sortField}+'&sortDir='+${sortDir}">Next &raquo;</a>
+    </span>
     </span>
 </div>
-
 <form action="new_post">
     <button id="new-post-button">New Post</button>
 </form>
 <br>
-<!--<div class="filter-container">-->
-<!--    <form th:action="@{filter}" method="get">-->
-<!--        <label for="author-filter">Author:</label>-->
-<!--        <input type="text" id="author-filter" name="author" placeholder="Enter author">-->
-
-<!--        <label for="datetime-filter">Published DateTime:</label>-->
-<!--        <input type="datetime-local" id="datetime-filter" name="publishedDateTime">-->
-
-<!--        <label for="tags-filter">Tags:</label>-->
-<!--        <input type="text" id="tags-filter" name="tags" placeholder="Enter tags (comma-separated)">-->
-
-<!--        <button id="apply-filters">Apply Filters</button>-->
-<!--    </form>-->
-<!--</div>-->
 <div class="filter-container">
-    <form th:action="@{filter}" method="get">
+    <form th:action="@{/home}" method="get">
         <label for="author-filter">Author:</label>
         <select id="author-filter" name="author">
             <option value="">All Authors</option>
-            <option th:each="post : ${listPosts}" th:value="${post.author}" th:text="${post.author}"></option>
+            <option th:each="post : ${allPosts}" th:value="${post.author}" th:text="${post.author}"></option>
         </select>
 
         <label for="datetime-filter">Published Date:</label>
         <select id="datetime-filter" name="publishedDate">
             <option value="">All Dates</option>
-            <option th:each="post : ${listPosts}" th:value="${post.publishedAt}" th:text="${post.publishedAt}"></option>
+            <option th:each="post : ${allPosts}" th:value="${post.publishedAt}" th:text="${post.publishedAt}"></option>
         </select>
 
         <label for="tags-filter">Tags:</label>
         <select id="tags-filter" name="tags">
             <option value="">All Tags</option>
-            <th:block th:each="post : ${listPosts}">
+            <th:block th:each="post : ${allPosts}">
                 <th:block th:each="tag : ${post.tags}">
                     <option th:value="${tag.name}" th:text="${tag.name}"></option>
                 </th:block>
             </th:block>
         </select>
-
         <button id="apply-filters">Apply Filters</button>
     </form>
 </div>

@@ -27,9 +27,8 @@ public class CommentService {
     public void deleteCommentByID(int commentId){
         commentRepository.deleteById(commentId);
     }
-    /*public void deletePostByID(int postId){
-        postTagService.deletePostIdInPostTag(postId);
-        postRepository.deleteById(postId);
-    }*/
+    public void deleteCommentByPostId(int postId){
+       commentRepository.deleteByPostId(postId);
+    }
 }
 

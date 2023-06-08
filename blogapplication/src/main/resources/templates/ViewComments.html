@@ -106,7 +106,6 @@
             </tr>
             </tbody>
         </table>
-
         <h2>New Comment</h2>
         <form th:action="@{'/new_comment/' + ${postId}}" th:object="${newComment}" method="post">
             <input type="hidden" th:field="*{id}"/>
