@@ -21,9 +21,9 @@ public class HomeController {
         return findPaginated(null,null,null,1,"title","asc",null,model);
     }
     @GetMapping("/home")
-    public String findPaginated(@RequestParam(value="author",required = false) String author,
-                         @RequestParam(value="publishedDate",required = false) String publishedDateTime,
-                         @RequestParam(value="tags",required = false) String tags,
+    public String findPaginated(@RequestParam(value="author",required = false) String selectedAuthor,
+                         @RequestParam(value="publishedDate",required = false) String selectedPublishedDate,
+                         @RequestParam(value="tags",required = false) String selectedTag,
                          @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
                          @RequestParam(value = "sortField", defaultValue = "title") String sortField,
                          @RequestParam(value = "sortDir", defaultValue = "asc") String sortDir,
@@ -33,34 +33,33 @@ public class HomeController {
         Page<Post> page;
         Timestamp publishedAt;
         List<Post> allPosts=postService.listAll();
-
-        if(author != null && publishedDateTime != null && tags != null && author != "" && publishedDateTime != "" && tags != ""){
-            publishedAt = Timestamp.valueOf(publishedDateTime);
-            page = postService.filterAndPaginatePost(author,publishedAt,tags, pageNo, pageSize, sortField, sortDir);
+        if(selectedAuthor != null && selectedPublishedDate != null && selectedTag != null && selectedAuthor != "" && selectedPublishedDate != "" && selectedPublishedDate != ""){
+            publishedAt = Timestamp.valueOf(selectedPublishedDate);
+            page = postService.filterAndPaginatePost(selectedAuthor,publishedAt,selectedTag, pageNo, pageSize, sortField, sortDir);
         }
-        else if(author != null && publishedDateTime != null && author != "" && publishedDateTime != ""){
-            publishedAt = Timestamp.valueOf(publishedDateTime);
-            page = postService.filterAndPaginatePost(author,publishedAt,pageNo, pageSize, sortField, sortDir);
+        else if(selectedAuthor != null && selectedPublishedDate != null && selectedAuthor != "" && selectedPublishedDate != ""){
+            publishedAt = Timestamp.valueOf(selectedPublishedDate);
+            page = postService.filterAndPaginatePost(selectedAuthor,publishedAt,pageNo, pageSize, sortField, sortDir);
         }
-        else if(publishedDateTime != null && tags != null && publishedDateTime != "" && tags != "" ){
-            publishedAt = Timestamp.valueOf(publishedDateTime);
-            page=postService.filterAndPaginatePost(publishedAt,tags,pageNo, pageSize, sortField, sortDir);
+        else if(selectedPublishedDate != null && selectedTag != null && selectedPublishedDate != "" && selectedTag != "" ){
+            publishedAt = Timestamp.valueOf(selectedPublishedDate);
+            page=postService.filterAndPaginatePost(publishedAt,selectedTag,pageNo, pageSize, sortField, sortDir);
         }
-        else if(author != null && tags != null && author != "" && tags != ""){
-            page=postService.filterAndPaginatePost(author,tags,pageNo, pageSize, sortField, sortDir);
+        else if(selectedAuthor != null && selectedTag != null && selectedAuthor != "" && selectedTag != ""){
+            page=postService.filterAndPaginatePost(selectedAuthor,selectedTag,pageNo, pageSize, sortField, sortDir);
         }
-        else if(author != null && author != ""){
-            page = postService.filterAndPaginatePost(author,pageNo, pageSize, sortField, sortDir);
+        else if(selectedAuthor != null && selectedAuthor != ""){
+            page = postService.filterAndPaginatePost(selectedAuthor,pageNo, pageSize, sortField, sortDir);
         }
-        else if(publishedDateTime != null && publishedDateTime != ""){
-            publishedAt = Timestamp.valueOf(publishedDateTime);
+        else if(selectedPublishedDate != null && selectedPublishedDate != ""){
+            publishedAt = Timestamp.valueOf(selectedPublishedDate);
             page = postService.filterAndPaginatePost(publishedAt,pageNo, pageSize, sortField, sortDir);
         }
-        else if(tags != null && tags != ""){
-            page = postService.TagFilterAndPaginatePost(tags,pageNo, pageSize, sortField, sortDir);
+        else if(selectedTag != null && selectedTag != ""){
+            page = postService.TagFilterAndPaginatePost(selectedTag,pageNo, pageSize, sortField, sortDir);
         }
        else if(searchKeyword != "" && searchKeyword != null&&searchKeyword !="null") {
-            page = postService.searchAndPaginatePost(searchKeyword, pageNo, pageSize, sortField, sortDir);
+           page = postService.searchAndPaginatePost(searchKeyword, pageNo, pageSize, sortField, sortDir);
         }
         else{
             page =postService.getPaginatedPost(pageNo,pageSize,sortField,sortDir);
@@ -74,9 +73,9 @@ public class HomeController {
         model.addAttribute("sortDir",sortDir);
         model.addAttribute("reverseSortDir",sortDir);
         model.addAttribute("searchKeyword",searchKeyword);
-        model.addAttribute("author",author);
-        model.addAttribute("publishedDate",publishedDateTime);
-        model.addAttribute("tags",tags);
+        model.addAttribute("selectedAuthor",selectedAuthor);
+        model.addAttribute("selectedPublishedDate",selectedPublishedDate);
+        model.addAttribute("selectedTag",selectedTag);
         model.addAttribute("allPosts",allPosts);
         return "Home.html";
     }

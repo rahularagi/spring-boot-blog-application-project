@@ -3,9 +3,7 @@ package com.rahul.blogapplication.services;
 import com.rahul.blogapplication.dto.PostDto;
 import com.rahul.blogapplication.models.Post;
 import com.rahul.blogapplication.models.Tag;
-import com.rahul.blogapplication.repositories.CommentRepository;
 import com.rahul.blogapplication.repositories.PostRepository;
-import com.rahul.blogapplication.repositories.PostTagRepository;
 import com.rahul.blogapplication.repositories.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,9 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -41,7 +37,6 @@ public class PostService {
         if(postDto.getId()>0){
             post.setId(postDto.getId());
         }
-
         String [] tagsArray=postDto.getTags().split(",");
         for (String tagName : tagsArray) {
             Tag tag = tagRepository.findByName(tagName);
@@ -124,10 +119,8 @@ public class PostService {
         postTagService.deletePostIdInPostTag(postId);
         commentService.deleteCommentByPostId(postId);
         postRepository.deleteById(postId);
-
     }
     public List<Post> listAll(){
         return postRepository.findAll();
     }
-
 }

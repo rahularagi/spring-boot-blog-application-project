@@ -2,40 +2,34 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>View Comments</title>
     <style>
         .container {
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
         }
-
         .comment-box {
             margin-bottom: 20px;
         }
-
         .comment-box table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 10px;
             border: 1px solid #ccc;
         }
-
         .comment-box table th,
         .comment-box table td {
             padding: 8px;
             border-bottom: 1px solid #ccc;
         }
-
         .comment-box table th {
             background-color: #f2f2f2;
             text-align: left;
         }
-
         .comment-box form {
             margin-top: 20px;
         }
-
         .comment-box input[type="text"],
         .comment-box input[type="email"],
         .comment-box textarea {
@@ -46,11 +40,9 @@
             border-radius: 4px;
             box-sizing: border-box;
         }
-
         .comment-box textarea {
             resize: vertical;
         }
-
         .comment-box button {
             width: 100%;
             padding: 8px;
@@ -60,15 +52,12 @@
             border-radius: 4px;
             cursor: pointer;
         }
-
         .comment-box button:hover {
             background-color: #45a049;
         }
-
         .comment-box .return-home {
             background-color: #337ab7;
         }
-
         .comment-box .return-home:hover {
             background-color: #286090;
         }
@@ -106,6 +95,7 @@
             </tr>
             </tbody>
         </table>
+
         <h2>New Comment</h2>
         <form th:action="@{'/new_comment/' + ${postId}}" th:object="${newComment}" method="post">
             <input type="hidden" th:field="*{id}"/>

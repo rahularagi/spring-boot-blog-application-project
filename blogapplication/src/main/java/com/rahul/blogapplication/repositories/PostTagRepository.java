@@ -1,6 +1,5 @@
 package com.rahul.blogapplication.repositories;
 
-import com.rahul.blogapplication.models.Post;
 import com.rahul.blogapplication.models.PostTag;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;

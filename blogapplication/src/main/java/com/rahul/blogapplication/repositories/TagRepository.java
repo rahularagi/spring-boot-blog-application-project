@@ -1,6 +1,5 @@
 package com.rahul.blogapplication.repositories;
 
-import com.rahul.blogapplication.models.Comment;
 import com.rahul.blogapplication.models.Tag;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

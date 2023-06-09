@@ -2,11 +2,10 @@ package com.rahul.blogapplication;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
-public class BlogapplicationApplication {
+public class BlogApplicationApplication {
 	public static void main(String[] args) {
-		SpringApplication.run(BlogapplicationApplication.class, args);
+		SpringApplication.run(BlogApplicationApplication.class, args);
 	}
 }

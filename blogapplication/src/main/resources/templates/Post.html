@@ -2,42 +2,36 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <title>New/Edit Post</title>
   <style>
         body {
-            background-color: #f2f2f2; /* Set background color for the page */
+            background-color: #f2f2f2;
         }
-
         .container {
             max-width: 600px;
-            margin: 50px auto; /* Add margin to center the container */
-            border: 5px solid #333; /* Set the border style and color */
-            padding: 20px; /* Add padding to create space for the inner content */
-            background-color: #fff; /* Set background color for the box */
+            margin: 50px auto;
+            border: 5px solid #333;
+            padding: 20px;
+            background-color: #fff;
         }
-
         h1 {
             text-align: center;
             margin-top: 0;
         }
-
         label {
             display: block;
             margin-top: 10px;
         }
-
         input[type="text"],
         textarea {
             width: 100%;
             padding: 5px;
             border-radius: 4px;
         }
-
         .center {
             text-align: center;
             margin-top: 10px;
         }
-
         button {
             display: inline-block;
             padding: 5px 10px;
@@ -46,7 +40,7 @@
             background-color: #4CAF50;
             color: white;
         }
-    </style>
+   </style>
 </head>
 <body>
 <div class="container">
@@ -55,16 +49,12 @@
     <input type="hidden" th:field="*{id}"/>
     <label for="title">Title:</label>
     <input type="text" id="title" name="title" placeholder="Title" th:field="*{title}" required>
-
     <label for="tags">Tags:</label>
     <input type="text" id="tags" name="tags" th:field="*{tags}" required>
-
     <label for="author">Author Name:</label>
     <input type="text" id="author" name="author" th:field="*{authorName}" required>
-
     <label for="content">Content:</label>
     <textarea id="content" name="content" rows="8" th:field="*{content}" required></textarea>
-
     <div class="center">
       <button id="publish-button">Publish</button>
     </div>
