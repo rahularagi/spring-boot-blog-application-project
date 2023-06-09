@@ -264,21 +264,17 @@
         <label for="author-filter">Author:</label>
         <select id="author-filter" name="author">
             <option value="">All Authors</option>
-            <option th:each="post : ${allPosts}" th:value="${post.author}" th:text="${post.author}" th:selected="${post.author == selectedAuthor}"></option>
+            <option th:each="eachAuthors : ${allAuthors}" th:value="${eachAuthors}" th:text="${eachAuthors}" th:selected="${eachAuthors == selectedAuthor}"></option>
         </select>
         <label for="datetime-filter">Published Date:</label>
         <select id="datetime-filter" name="publishedDate">
             <option value="">All Dates</option>
-            <option th:each="post : ${allPosts}" th:value="${post.publishedAt}" th:text="${post.publishedAt}" th:selected="${post.publishedAt == selectedPublishedDate}"></option>
+            <option th:each="date : ${allPublishedAt}" th:value="${date}" th:text="${date}" th:selected="${date == selectedPublishedDate}"></option>
         </select>
         <label for="tags-filter">Tags:</label>
         <select id="tags-filter" name="tags">
             <option value="">All Tags</option>
-            <th:block th:each="post : ${allPosts}">
-                <th:block th:each="tag : ${post.tags}">
-                    <option th:value="${tag.name}" th:text="${tag.name}" th:selected="${tag.name == selectedTag}"></option>
-                </th:block>
-            </th:block>
+            <option th:each="tag : ${allTags}" th:value="${tag}" th:text="${tag}" th:selected="${tag == selectedTag}"></option>
         </select>
         <button id="apply-filters">Apply Filters</button>
     </form>

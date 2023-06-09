@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.TreeSet;
 
 @Controller
 public class HomeController {
@@ -32,7 +33,10 @@ public class HomeController {
         int pageSize = 10;
         Page<Post> page;
         Timestamp publishedAt;
-        List<Post> allPosts=postService.listAll();
+       TreeSet<String> allAuthors=postService.getAllAuthor();
+       TreeSet<Timestamp> allPublishedAt=postService.getAllPublishedAt();
+       TreeSet<String> allTags=postService.getAllTags();
+
         if(selectedAuthor != null && selectedPublishedDate != null && selectedTag != null && selectedAuthor != "" && selectedPublishedDate != "" && selectedPublishedDate != ""){
             publishedAt = Timestamp.valueOf(selectedPublishedDate);
             page = postService.filterAndPaginatePost(selectedAuthor,publishedAt,selectedTag, pageNo, pageSize, sortField, sortDir);
@@ -76,7 +80,9 @@ public class HomeController {
         model.addAttribute("selectedAuthor",selectedAuthor);
         model.addAttribute("selectedPublishedDate",selectedPublishedDate);
         model.addAttribute("selectedTag",selectedTag);
-        model.addAttribute("allPosts",allPosts);
+        model.addAttribute("allAuthors",allAuthors);
+        model.addAttribute("allPublishedAt",allPublishedAt);
+        model.addAttribute("allTags",allTags);
         return "Home.html";
     }
 }

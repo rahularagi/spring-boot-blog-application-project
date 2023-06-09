@@ -13,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.TreeSet;
 
 @Service
 public class PostService {
@@ -32,7 +33,12 @@ public class PostService {
         post.setTitle(postDto.getTitle());
         post.setAuthor(postDto.getAuthorName());
         post.setContent(postDto.getContent());
-        post.setExcerpt(postDto.getContent().substring(0,30));
+        if(postDto.getContent().length() < 30){
+            post.setExcerpt(postDto.getContent());
+        }
+        else{
+            post.setExcerpt(postDto.getContent().substring(0,30));
+        }
         post.setIsPublished(true);
         if(postDto.getId()>0){
             post.setId(postDto.getId());
@@ -120,7 +126,30 @@ public class PostService {
         commentService.deleteCommentByPostId(postId);
         postRepository.deleteById(postId);
     }
-    public List<Post> listAll(){
-        return postRepository.findAll();
+    public TreeSet<String> getAllAuthor(){
+        TreeSet<String> allAuthors=new TreeSet<>();
+          List<Post> listAllPost= postRepository.findAll();
+          for(int i=0;i<listAllPost.size();i++){
+              allAuthors.add(listAllPost.get(i).getAuthor());
+        }
+          return allAuthors;
     }
+    public TreeSet<Timestamp> getAllPublishedAt(){
+            List<Post> listAllPost= postRepository.findAll();
+            TreeSet<Timestamp> allPublishedAt=new TreeSet<>();
+        for(int i=0;i<listAllPost.size();i++){
+            allPublishedAt.add(listAllPost.get(i).getPublishedAt());
+        }
+        return allPublishedAt;
+    }
+    public  TreeSet<String> getAllTags(){
+            List<Post> listAllPost= postRepository.findAll();
+            TreeSet<String> allTags=new TreeSet<>();
+        for(int i=0;i<listAllPost.size();i++){
+            for(int j=0;j<listAllPost.get(i).getTags().size();j++){
+                allTags.add(listAllPost.get(i).getTags().get(j).getName());
+            }
+        }
+        return  allTags;
+   }
 }
