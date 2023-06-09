@@ -1,7 +1,7 @@
 package com.rahul.blogapplication.models;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.CurrentTimestamp;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -14,7 +14,8 @@ public class Tag {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String name;
-    @CurrentTimestamp
+    @Column(nullable = false, updatable = false)
+    @CreationTimestamp
     private Timestamp createdAt;
     @UpdateTimestamp
     private Timestamp updatedAt;

@@ -1,7 +1,7 @@
 package com.rahul.blogapplication.models;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.CurrentTimestamp;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -18,10 +18,12 @@ public class Post {
     @Column(length = 10000000)
     private String content;
     private String author;
-    @CurrentTimestamp
+    @Column(nullable = false, updatable = false)
+    @CreationTimestamp
     private Timestamp publishedAt;
     private boolean isPublished;
-    @CurrentTimestamp
+    @Column(nullable = false, updatable = false)
+    @CreationTimestamp
     private Timestamp createdAt;
     @UpdateTimestamp
     private Timestamp updatedAt;

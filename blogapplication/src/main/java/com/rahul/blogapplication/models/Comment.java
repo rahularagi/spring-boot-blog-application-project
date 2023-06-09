@@ -1,7 +1,7 @@
 package com.rahul.blogapplication.models;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.CurrentTimestamp;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import java.sql.Timestamp;
 
@@ -15,7 +15,8 @@ public class Comment {
     private String email;
     private String comment;
     private int postId;
-    @CurrentTimestamp
+    @Column(nullable = false, updatable = false)
+    @CreationTimestamp
     private Timestamp createdAt;
     @UpdateTimestamp
     private Timestamp updatedAt;
