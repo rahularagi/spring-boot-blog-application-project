@@ -23,7 +23,6 @@ public class PostTag {
     @UpdateTimestamp
     @Column(name = "updated_at",nullable = false)
     private Timestamp updatedAt;
-
     public int getId() {
         return id;
     }

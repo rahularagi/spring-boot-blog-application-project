@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <title>Home</title>
     <style>
@@ -143,6 +143,15 @@
 <header>
     <h1>My Blog Application</h1>
 </header>
+<div sec:authorize="isAuthenticated()">
+<p>
+    User:<span sec:authentication="principal.username"></span>
+    <br>
+    <br>
+    Role:<span sec:authentication="principal.authorities"></span>
+</p>
+</div>
+
 <div class="search-container">
     <button type="submit" class="refresh-button" onclick="location.href='/'">Refresh</button>
     &nbsp;&nbsp;
@@ -150,8 +159,7 @@
         <input type="text" name="keyword" placeholder="Search" th:value="${searchKeyword}">
         <button class="search-button">Search</button>
     </form>
-    &nbsp;
-    <form>
+    <form th:action="@{/login}" sec:authorize="!isAuthenticated()">
         <button class="login-button">Login</button>
     </form>
 </div>
@@ -215,13 +223,20 @@
             <span th:each="tag : ${post.tags}">
                     <span th:text="${tag.name}"></span>&nbsp;
                 </span>
-            <form th:action="@{'view_comments/' + ${post.id}}">
+<!--            <form th:action="@{'/view_comments/' + ${post.id} +'?postAuthor='+${post.author}">     +'&postAuthor='+${post.author}-->
+                <form th:action="@{/view_comments}">
+                    <input type="hidden" name="postId" th:value="${post.id}" />
+                    <input type="hidden" name="postAuthor" th:value="${post.author}"/>
                 <button class="view-comment-button">View Comments</button>
             </form>
             <br>
+            <div sec:authorize="isAuthenticated()">
+                <span th:if="${post.author == #authentication.principal.username or #authorization.expression('hasRole(''ADMIN'')')}">
             <form th:action="@{'delete/' + ${post.id}}" method="post">
                 <button class="delete" onclick="deletePost()">Delete Post</button>
             </form>
+                </span>
+            </div>
         </div>
     </a>
 </div>
@@ -255,9 +270,13 @@
         </span>
 </div>
 
-<form action="new_post">
-    <button id="new-post-button">New Post</button>
-</form><br>
+<div sec:authorize="isAuthenticated()">
+    <div sec:authorize="isAuthenticated() or hasRole('ADMIN')">
+       <form action="new_post">
+           <button id="new-post-button">New Post</button>
+       </form><br>
+    </div>
+</div>
 
 <div class="filter-container">
     <form th:action="@{/home}" method="get">
@@ -279,5 +298,9 @@
         <button id="apply-filters">Apply Filters</button>
     </form>
 </div>
+
+    <form action="" th:action="@{/logout}" method="POST" sec:authorize="isAuthenticated()">
+        <input type="submit" value="Logout"/>
+    </form>
 </body>
 </html>

@@ -51,8 +51,14 @@
     <input type="text" id="title" name="title" placeholder="Title" th:field="*{title}" required>
     <label for="tags">Tags:</label>
     <input type="text" id="tags" name="tags" th:field="*{tags}">
-    <label for="author">Author Name:</label>
-    <input type="text" id="author" name="author" th:field="*{authorName}" required>
+    <span th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+         <label for="author">Author Name:</label>
+         <input type="text" id="author" name="author"  th:field="*{authorName}" th:value="*{#authentication.principal.username}" required>
+    </span>
+    <span th:unless="${#authorization.expression('hasRole(''ADMIN'')')}">
+        <label for="author"></label>
+        <input type="hidden"  name="author"  th:value="*{#authentication.principal.username}"  required>
+    </span>
     <label for="content">Content:</label>
     <textarea id="content" name="content" rows="8" th:field="*{content}" required></textarea>
     <div class="center">

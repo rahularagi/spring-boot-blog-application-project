@@ -27,7 +27,6 @@ public class PostService {
     private PostTagService postTagService;
     @Autowired
     private CommentService commentService;
-
     public void addPost(PostDto postDto){
       Post post=new Post();
         post.setTitle(postDto.getTitle());
@@ -152,4 +151,46 @@ public class PostService {
         }
         return  allTags;
    }
+
+
+   public List<Post> getAllPosts(){
+        return postRepository.findAll();
+   }
+
+    public Post deletePost(int postId){
+        Post post=postRepository.findById(postId);
+        postTagService.deletePostIdInPostTag(postId);
+        commentService.deleteCommentByPostId(postId);
+        postRepository.deleteById(postId);
+        return post;
+    }
+
+    public PostDto updatePost(PostDto postDto){
+        Post post=new Post();
+        post.setTitle(postDto.getTitle());
+        post.setAuthor(postDto.getAuthorName());
+        post.setContent(postDto.getContent());
+        if(postDto.getContent().length() < 30){
+            post.setExcerpt(postDto.getContent());
+        }
+        else{
+            post.setExcerpt(postDto.getContent().substring(0,30));
+        }
+        post.setIsPublished(true);
+        if(postDto.getId()>0){
+            post.setId(postDto.getId());
+        }
+        String [] tagsArray=postDto.getTags().split(",");
+        for (String tagName : tagsArray) {
+            Tag tag = tagRepository.findByName(tagName);
+            if (tag == null) {
+                tag = new Tag();
+                tag.setName(tagName);
+                tag = tagRepository.save(tag);
+            }
+            post.getTags().add(tag);
+        }
+        postRepository.save(post);
+        return getPostDto(post);
+    }
 }

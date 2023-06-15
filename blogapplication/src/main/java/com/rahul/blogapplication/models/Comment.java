@@ -20,7 +20,6 @@ public class Comment {
     private Timestamp createdAt;
     @UpdateTimestamp
     private Timestamp updatedAt;
-
     public int getId() {
         return id;
     }

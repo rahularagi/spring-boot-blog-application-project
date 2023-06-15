@@ -15,14 +15,16 @@ public class PostController {
     private PostService postService;
     @Autowired
     private TagService tagService;
-
     @GetMapping("/new_post")
     public String newPost(Model model){
         model.addAttribute("postDto",new PostDto());
         return "Post.html";
     }
     @PostMapping("/save_post")
-    public String savePost(@ModelAttribute("postDto") PostDto postDto){
+    public String savePost(@RequestParam(value="author",required = false) String author,@ModelAttribute("postDto") PostDto postDto){
+       if(postDto.getAuthorName()==null||postDto.getAuthorName()=="") {
+           postDto.setAuthorName(author);
+       }
         postService.addPost(postDto);
         return "redirect:/";
     }

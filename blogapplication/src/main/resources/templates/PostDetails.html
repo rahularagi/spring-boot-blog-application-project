@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Post Details</title>
@@ -64,9 +64,13 @@
         <span class="tags" th:each="tag : ${post.tags}" th:text="${tag.name}"></span>&nbsp;
     </p>
     <div class="buttons">
+        <div sec:authorize="isAuthenticated()">
+        <span th:if="${post.author == #authentication.principal.username or #authorization.expression('hasRole(''ADMIN'')')}">
         <form th:action="@{'/update/'+${post.id}}">
             <button class="home">Update</button>
         </form>
+        </span>
+        </div>
         <br>
         <button class="home" onclick="location.href='/'">Home</button>
     </div>

@@ -12,33 +12,34 @@ import java.util.List;
 public class CommentController {
     @Autowired
     private CommentService commentService;
-
-    @GetMapping("/view_comments/{postId}")
-    public String viewComments(@PathVariable("postId") int postId, Model model){
+    @GetMapping("/view_comments")
+    public String viewComments(@RequestParam("postId") int postId,@RequestParam("postAuthor") String  postAuthor, Model model){
         List<Comment> comments = commentService.getCommentsByPostId(postId);
         model.addAttribute("postId",postId);
+        model.addAttribute("postAuthor",postAuthor);
         model.addAttribute("comments",comments);
         model.addAttribute("newComment",new Comment());
         return "ViewComments.html";
     }
-    @PostMapping("/new_comment/{postId}")
-    public String saveComment(@PathVariable("postId") int postId,@ModelAttribute("newComment") Comment newComment){
-         newComment.setPostId(postId);
-         commentService.addPost(newComment);
-         return "redirect:/view_comments/"+postId;
+    @PostMapping("/new_comment")
+    public String saveComment(@RequestParam("postId") int postId,@RequestParam("postAuthor") String  postAuthor,@ModelAttribute("newComment") Comment newComment,Model model){
+        newComment.setPostId(postId);
+         commentService.addComment(newComment);
+         return viewComments(postId,postAuthor,model);
     }
     @GetMapping("/update_comment/{commentId}")
-    public String updatePost(@PathVariable("commentId") int commentId,Model model){
+    public String updatePost(@PathVariable("commentId") int commentId,@RequestParam("postAuthor") String  postAuthor,Model model){
         Comment newComment = commentService.getCommentById(commentId);
         int postId=newComment.getPostId();
         model.addAttribute("postId",postId);
+        model.addAttribute("postAuthor",postAuthor);
         model.addAttribute("newComment", newComment);
         return "ViewComments.html";
     }
     @GetMapping("/delete_comment/{commentId}")
-    public String deletePost(@PathVariable("commentId") int commentId){
+    public String deletePost(@PathVariable("commentId") int commentId,@RequestParam("postAuthor") String  postAuthor,Model model){
         Comment comment=commentService.getCommentById(commentId);
         commentService.deleteCommentByID(commentId);
-        return "redirect:/view_comments/"+comment.getPostId();
+        return viewComments(comment.getPostId(),postAuthor,model);
     }
 }

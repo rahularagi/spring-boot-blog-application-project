@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>View Comments</title>
@@ -82,30 +82,38 @@
                 <td th:text="${comment.name}"></td>
                 <td th:text="${comment.email}"></td>
                 <td th:text="${comment.comment}"></td>
-                <td>
+                <div sec:authorize="isAuthenticated()">
+                     <span th:if="${postAuthor == #authentication.principal.username or #authorization.expression('hasRole(''ADMIN'')')}">
+                    <td>
                     <form th:action="@{'/update_comment/'+${comment.id}}">
+                        <input type="hidden" name="postAuthor" th:value="${postAuthor}"/>
                         <button class="home">Update</button>
                     </form>
                 </td>
                 <td>
                     <form th:action="@{'/delete_comment/'+${comment.id}}">
+                        <input type="hidden" name="postAuthor" th:value="${postAuthor}"/>
                         <button class="home">Delete</button>
                     </form>
-                </td>
+                 </td>
+                     </span>
+                 </div>
             </tr>
             </tbody>
         </table>
 
         <h2>New Comment</h2>
-        <form th:action="@{'/new_comment/' + ${postId}}" th:object="${newComment}" method="post">
-            <input type="hidden" th:field="*{id}"/>
+        <form th:action="@{/new_comment}" th:object="${newComment}" method="post">
+            <input type="hidden" name="postId" th:value="${postId}" />
+            <input type="hidden" name="postAuthor" th:value="${postAuthor}"/>
+            <input type="hidden"   th:field="*{id}"/>
             <input type="hidden" name="postId" th:value="${postId}" th:field="*{postId}"/>
             <input type="text" name="name" placeholder="Your Name" th:field="*{name}" required>
             <input type="email" name="email" placeholder="Your Email" th:field="*{email}" required>
             <textarea name="comment" rows="5" placeholder="Your Comment" th:field="*{comment}"></textarea>
             <button type="submit">Submit</button>
             <button class="return-home" onclick="location.href='/'">Return Home</button>
-        </form>
+         </form>
     </div>
 </div>
 </body>

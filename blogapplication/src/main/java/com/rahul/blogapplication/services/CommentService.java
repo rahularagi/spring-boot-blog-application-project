@@ -10,11 +10,10 @@ import java.util.List;
 public class CommentService {
     @Autowired
     private CommentRepository commentRepository;
-
     public List<Comment> getCommentsByPostId(int postId){
         return commentRepository.findByPostId(postId);
     }
-    public void addPost(Comment newComment){
+    public void addComment(Comment newComment){
         commentRepository.save(newComment);
     }
     public Comment getCommentById(int commentId){

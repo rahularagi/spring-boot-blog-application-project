@@ -1,11 +1,11 @@
 package com.rahul.blogapplication.dto;
 
 public class PostDto {
+    private int id;
     private String title;
-    private String tags;
     private String authorName;
     private String content;
-    private int id;
+    private String tags;
 
     public int getId() {
         return id;

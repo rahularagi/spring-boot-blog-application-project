@@ -1,5 +1,6 @@
 package com.rahul.blogapplication.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -19,9 +20,9 @@ public class Tag {
     private Timestamp createdAt;
     @UpdateTimestamp
     private Timestamp updatedAt;
+    @JsonIgnoreProperties("tags")
     @ManyToMany(mappedBy = "tags")
     private List<Post> posts = new ArrayList<>();
-
     public int getId() {
         return id;
     }

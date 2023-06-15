@@ -1,5 +1,6 @@
 package com.rahul.blogapplication.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -27,6 +28,7 @@ public class Post {
     private Timestamp createdAt;
     @UpdateTimestamp
     private Timestamp updatedAt;
+    @JsonIgnoreProperties("posts")
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "post_tag",
@@ -34,7 +36,6 @@ public class Post {
             inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
     private List<Tag> tags = new ArrayList<>();
-
     public int getId() {
         return id;
     }
