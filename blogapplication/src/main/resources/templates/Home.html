@@ -250,7 +250,7 @@
                 <a th:href="@{/home}+'?author='+${selectedAuthor}+'&publishedDate='+${selectedPublishedDate}+'&tags='+${selectedTag.replace('#', '')}+'&pageNo='+${currentPage + 1}+'&sortField='+${sortField}+'&sortDir='+${sortDir}">Next &raquo;</a>
             </span>
         </span>
-    <span th:unless="${selectedAuthor != null && selectedPublishedDate != null && selectedTag != null}">
+        <span th:unless="${selectedAuthor != null && selectedPublishedDate != null && selectedTag != null}">
             <span th:if="${searchKeyword != null}">
                 <span th:if="${totalPages > 1 && currentPage > 1}">
                     <a th:href="@{/home} +'?pageNo='+${currentPage - 1}+'&sortField='+${sortField}+'&sortDir='+${sortDir}+'&keyword='+${searchKeyword}">&laquo; Previous</a>
@@ -298,7 +298,6 @@
         <button id="apply-filters">Apply Filters</button>
     </form>
 </div>
-
     <form action="" th:action="@{/logout}" method="POST" sec:authorize="isAuthenticated()">
         <input type="submit" value="Logout"/>
     </form>

@@ -151,8 +151,6 @@ public class PostService {
         }
         return  allTags;
    }
-
-
    public List<Post> getAllPosts(){
         return postRepository.findAll();
    }
@@ -164,7 +162,6 @@ public class PostService {
         postRepository.deleteById(postId);
         return post;
     }
-
     public PostDto updatePost(PostDto postDto){
         Post post=new Post();
         post.setTitle(postDto.getTitle());
