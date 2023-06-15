@@ -26,12 +26,10 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.disable())
                 .authorizeHttpRequests()
-                .requestMatchers("/", "/home", "/view_comments", "/addUser", "/view_post/{postId}", "/new_comment")
-                .permitAll()
-                .requestMatchers("/api/posts","/api/posts/{postId}","/api/pagination","/api/comment","/api/comment/{postId}","/api/comment/new/{postId}")
-                .permitAll()
-                .anyRequest()
-                .authenticated()
+                .requestMatchers("/", "/home", "/view_comments", "/addUser", "/view_post/{postId}", "/new_comment").permitAll()
+                .requestMatchers("/api/posts","/api/posts/{postId}","/api/pagination","/api/comment","/api/comment/{postId}","/api/comment/new/{postId}").permitAll()
+                .requestMatchers(HttpMethod.POST, "/posts/new").hasAnyRole("ADMIN", "USER")
+                .anyRequest().authenticated()
                 .and()
                 .formLogin(form ->
                         form

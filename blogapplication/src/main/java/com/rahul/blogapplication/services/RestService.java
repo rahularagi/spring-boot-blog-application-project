@@ -10,7 +10,6 @@ public class RestService {
     @Autowired
     private  PostService postService;
     public boolean check(Authentication authentication,int postId){
-
         if(authentication.getAuthorities().stream()
                 .anyMatch(role -> role.getAuthority().equals("ROLE_ADMIN"))){
             return true;

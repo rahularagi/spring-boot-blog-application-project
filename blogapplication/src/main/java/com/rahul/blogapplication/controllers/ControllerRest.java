@@ -29,7 +29,7 @@ public class ControllerRest {
     private RestService restService;
 
     @GetMapping("/posts")
-    public List<Post> getAllPosts(){
+    public List<PostDto> getAllPosts(){
         return postService.getAllPosts();
     }
     @GetMapping("/posts/{postId}")
@@ -51,15 +51,22 @@ public class ControllerRest {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(restService.check(authentication,postId)) {
             postDto.setId(postId);
+            if(!authentication.getAuthorities().stream()
+                    .anyMatch(role -> role.getAuthority().equals("ROLE_ADMIN"))){
+               postDto.setAuthorName(authentication.getName());
+            }
             PostDto resultPostDto = postService.updatePost(postDto);
             return new ResponseEntity<>("Post updated successfully", HttpStatus.OK);
         }
         return new ResponseEntity<>("Un-Authorized", HttpStatus.UNAUTHORIZED);
     }
-    @PostMapping("/posts/new")
+    @PostMapping("/posts/newPost")
     public PostDto savePost(@RequestBody PostDto postDto){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        postDto.setAuthorName(authentication.getName());
+        if(!authentication.getAuthorities().stream()
+                .anyMatch(role -> role.getAuthority().equals("ROLE_ADMIN"))){
+            postDto.setAuthorName(authentication.getName());
+        }
         return postService.updatePost(postDto);
     }
     @GetMapping("/pagination")
@@ -143,8 +150,8 @@ public class ControllerRest {
         }
         return new ResponseEntity<>("Un-Authorized", HttpStatus.UNAUTHORIZED);
     }
-    @DeleteMapping("/comment/delete")
-    public ResponseEntity<String> deleteCommentByCommentID(@RequestParam("commentId") int commentId){
+    @DeleteMapping("/comment/deleteByCommentId/{commentId}")
+    public ResponseEntity<String> deleteCommentByCommentID(@PathVariable("commentId") int commentId){
         Comment comment=commentService.getCommentById(commentId);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(restService.check(authentication,comment.getPostId())) {

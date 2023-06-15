@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
 
@@ -151,10 +152,14 @@ public class PostService {
         }
         return  allTags;
    }
-   public List<Post> getAllPosts(){
-        return postRepository.findAll();
+   public List<PostDto> getAllPosts(){
+       List<Post> posts=postRepository.findAll();
+       List<PostDto> listPostDto=new ArrayList<>();
+       for(int i=0;i<posts.size();i++){
+           listPostDto.add(getPostDto(posts.get(i)));
+       }
+       return listPostDto;
    }
-
     public Post deletePost(int postId){
         Post post=postRepository.findById(postId);
         postTagService.deletePostIdInPostTag(postId);
