@@ -14,6 +14,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.TreeSet;
@@ -63,11 +65,14 @@ public class ControllerRest {
     @PostMapping("/posts/newPost")
     public PostDto savePost(@RequestBody PostDto postDto){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(!authentication.getAuthorities().stream()
-                .anyMatch(role -> role.getAuthority().equals("ROLE_ADMIN"))){
-            postDto.setAuthorName(authentication.getName());
+        if(!authentication.getName().equals("anonymousUser")) {
+            if (!authentication.getAuthorities().stream()
+                    .anyMatch(role -> role.getAuthority().equals("ROLE_ADMIN"))) {
+                postDto.setAuthorName(authentication.getName());
+            }
+            return postService.updatePost(postDto);
         }
-        return postService.updatePost(postDto);
+        return null;
     }
     @GetMapping("/pagination")
     public List<Post> findPaginated(@RequestParam(value="author",required = false) String selectedAuthor,
