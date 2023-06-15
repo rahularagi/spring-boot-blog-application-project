@@ -63,16 +63,17 @@ public class ControllerRest {
         return new ResponseEntity<>("Un-Authorized", HttpStatus.UNAUTHORIZED);
     }
     @PostMapping("/posts/newPost")
-    public PostDto savePost(@RequestBody PostDto postDto){
+    public ResponseEntity<String> savePost(@RequestBody PostDto postDto){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(!authentication.getName().equals("anonymousUser")) {
             if (!authentication.getAuthorities().stream()
                     .anyMatch(role -> role.getAuthority().equals("ROLE_ADMIN"))) {
                 postDto.setAuthorName(authentication.getName());
             }
-            return postService.updatePost(postDto);
+            PostDto postDtoResult=postService.updatePost(postDto);
+            return new ResponseEntity<>("Post added successfully", HttpStatus.OK);
         }
-        return null;
+        return new ResponseEntity<>("Un-Authorized", HttpStatus.UNAUTHORIZED);
     }
     @GetMapping("/pagination")
     public List<Post> findPaginated(@RequestParam(value="author",required = false) String selectedAuthor,
