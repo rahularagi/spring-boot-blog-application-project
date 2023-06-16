@@ -220,7 +220,6 @@
             <span th:each="tag : ${post.tags}">
                     <span th:text="${tag.name}"></span>&nbsp;
                 </span>
-<!--            <form th:action="@{'/view_comments/' + ${post.id} +'?postAuthor='+${post.author}">     +'&postAuthor='+${post.author}-->
                 <form th:action="@{/view_comments}">
                     <input type="hidden" name="postId" th:value="${post.id}" />
                     <input type="hidden" name="postAuthor" th:value="${post.author}"/>
@@ -292,7 +291,7 @@
         <button id="apply-filters">Apply Filters</button>
     </form>
 </div>
-    <form action="" th:action="@{/logout}" method="POST" sec:authorize="isAuthenticated()">
+    <form action="" th:action="@{/logout}" method="Post" sec:authorize="isAuthenticated()">
         <input type="submit" value="Logout"/>
     </form>
 </body>
