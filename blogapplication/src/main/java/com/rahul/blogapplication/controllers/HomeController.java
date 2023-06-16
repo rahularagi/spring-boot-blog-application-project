@@ -67,7 +67,6 @@ public class HomeController {
         else{
             page =postService.getPaginatedPost(pageNo,pageSize,sortField,sortDir);
         }
-
         List<Post> listPosts=page.getContent();
         model.addAttribute("currentPage",pageNo);
         model.addAttribute("totalPages",page.getTotalPages());

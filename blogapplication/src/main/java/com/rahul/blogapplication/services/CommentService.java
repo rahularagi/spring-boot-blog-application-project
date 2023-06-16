@@ -25,11 +25,9 @@ public class CommentService {
     public void deleteCommentByPostId(int postId){
        commentRepository.deleteByPostId(postId);
     }
-
     public List<Comment> deleteCommentsByPostId(int postId){
         return commentRepository.deleteCommentsByPostId(postId);
     }
-
     public Comment saveComment(Comment newComment){
         return commentRepository.save(newComment);
     }

@@ -6,7 +6,6 @@ public class PostDto {
     private String authorName;
     private String content;
     private String tags;
-
     public int getId() {
         return id;
     }
