@@ -28,10 +28,9 @@ public class HomeController {
                          @RequestParam(value = "sortField", defaultValue = "title") String sortField,
                          @RequestParam(value = "sortDir", defaultValue = "asc") String sortDir,
                          @RequestParam(value = "keyword",required = false) String searchKeyword,Model model){
-
-        int pageSize = 10;
-        Page<Post> page;
-        Timestamp publishedAt;
+       int pageSize = 10;
+       Page<Post> page;
+       Timestamp publishedAt;
        TreeSet<String> allAuthors=postService.getAllAuthor();
        TreeSet<Timestamp> allPublishedAt=postService.getAllPublishedAt();
        TreeSet<String> allTags=postService.getAllTags();
@@ -67,6 +66,7 @@ public class HomeController {
         else{
             page =postService.getPaginatedPost(pageNo,pageSize,sortField,sortDir);
         }
+
         List<Post> listPosts=page.getContent();
         model.addAttribute("currentPage",pageNo);
         model.addAttribute("totalPages",page.getTotalPages());
